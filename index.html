@@ -1,0 +1,788 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>viid.ru — Короткие видео, которые приводят клиентов бесплатно</title>
+<meta name="description" content="viid.ru — короткие вертикальные видео для локального бизнеса. Бесплатные рекламные контакты вместо дорогой рекламы. Тарифы от 0 ₽.">
+<style>
+  :root{
+    --bg:#0b0d12;
+    --bg-soft:#12151d;
+    --card:#171b26;
+    --card-2:#1d2230;
+    --text:#eef1f7;
+    --muted:#9aa3b5;
+    --accent:#6c5ce7;
+    --accent-2:#00d2a8;
+    --danger:#ff6b6b;
+    --gold:#ffc93c;
+    --border:rgba(255,255,255,.08);
+    --radius:18px;
+    --maxw:1120px;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{
+    background:var(--bg);
+    color:var(--text);
+    font-family:'Inter','Segoe UI',system-ui,-apple-system,sans-serif;
+    line-height:1.65;
+    overflow-x:hidden;
+  }
+  a{color:inherit;text-decoration:none}
+  img{max-width:100%}
+  .wrap{max-width:var(--maxw);margin:0 auto;padding:0 24px}
+  section{padding:84px 0}
+  h1,h2,h3{line-height:1.2;font-weight:800;letter-spacing:-.02em}
+  h2{font-size:clamp(28px,4vw,42px);margin-bottom:16px}
+  .lead{color:var(--muted);font-size:18px;max-width:760px}
+  .badge{
+    display:inline-block;padding:6px 14px;border-radius:999px;
+    background:rgba(108,92,231,.15);border:1px solid rgba(108,92,231,.4);
+    color:#b6aaff;font-size:13px;font-weight:600;margin-bottom:18px;
+  }
+  .accent{color:var(--accent-2)}
+  .accent-v{color:#a29bfe}
+
+  /* NAV */
+  nav{
+    position:sticky;top:0;z-index:50;
+    backdrop-filter:blur(14px);
+    background:rgba(11,13,18,.75);
+    border-bottom:1px solid var(--border);
+  }
+  .nav-inner{display:flex;align-items:center;justify-content:space-between;padding:16px 24px;max-width:var(--maxw);margin:0 auto}
+  .logo{font-size:22px;font-weight:900;letter-spacing:-.03em}
+  .logo span{color:var(--accent-2)}
+  .nav-links{display:flex;gap:26px;font-size:14px;color:var(--muted)}
+  .nav-links a:hover{color:var(--text)}
+  .btn{
+    display:inline-block;padding:13px 26px;border-radius:12px;font-weight:700;font-size:15px;
+    transition:transform .2s, box-shadow .2s;cursor:pointer;border:none;
+  }
+  .btn-primary{
+    background:linear-gradient(135deg,var(--accent),#8e7bff);color:#fff;
+    box-shadow:0 8px 24px rgba(108,92,231,.35);
+  }
+  .btn-primary:hover{transform:translateY(-2px);box-shadow:0 12px 32px rgba(108,92,231,.5)}
+  .btn-ghost{background:transparent;color:var(--text);border:1px solid var(--border)}
+  .btn-ghost:hover{border-color:var(--accent)}
+  .nav-cta{padding:10px 20px;font-size:14px}
+  @media(max-width:820px){.nav-links{display:none}}
+
+  /* HERO */
+  .hero{
+    padding:110px 0 90px;position:relative;
+    background:
+      radial-gradient(ellipse 60% 50% at 70% 20%, rgba(108,92,231,.25), transparent),
+      radial-gradient(ellipse 40% 40% at 20% 80%, rgba(0,210,168,.12), transparent);
+  }
+  .hero h1{font-size:clamp(34px,5.6vw,62px);max-width:880px;margin-bottom:22px}
+  .hero .lead{font-size:clamp(16px,2vw,20px);margin-bottom:36px}
+  .hero-btns{display:flex;gap:14px;flex-wrap:wrap}
+
+  /* STATS STRIP */
+  .stats{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-top:64px}
+  .stat{
+    background:var(--card);border:1px solid var(--border);border-radius:var(--radius);
+    padding:26px 22px;text-align:center;
+  }
+  .stat b{display:block;font-size:clamp(24px,3vw,34px);color:var(--accent-2);margin-bottom:6px}
+  .stat span{color:var(--muted);font-size:14px}
+  @media(max-width:820px){.stats{grid-template-columns:repeat(2,1fr)}}
+
+  /* PROBLEM */
+  .problem-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-top:40px}
+  .p-card{
+    background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:32px;
+  }
+  .p-card.bad{border-color:rgba(255,107,107,.3)}
+  .p-card.good{border-color:rgba(0,210,168,.3)}
+  .p-card h3{font-size:20px;margin-bottom:14px}
+  .p-card ul{list-style:none}
+  .p-card li{padding:10px 0;border-bottom:1px solid var(--border);color:var(--muted);font-size:15px;display:flex;gap:10px}
+  .p-card li:last-child{border-bottom:none}
+  .p-card li b{color:var(--text)}
+  .icon-x{color:var(--danger);font-weight:900}
+  .icon-v{color:var(--accent-2);font-weight:900}
+  @media(max-width:820px){.problem-grid{grid-template-columns:1fr}}
+
+  /* ECONOMY */
+  .econ-cards{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin:44px 0}
+  .econ{
+    background:linear-gradient(180deg,var(--card-2),var(--card));
+    border:1px solid var(--border);border-radius:var(--radius);padding:30px;
+  }
+  .econ .big{font-size:clamp(26px,3vw,36px);font-weight:900;color:var(--gold);margin:10px 0}
+  .econ p{color:var(--muted);font-size:14px}
+  @media(max-width:820px){.econ-cards{grid-template-columns:1fr}}
+
+  /* TABLES */
+  .table-wrap{overflow-x:auto;border-radius:var(--radius);border:1px solid var(--border);margin-top:36px}
+  table{width:100%;border-collapse:collapse;min-width:640px;background:var(--card)}
+  th,td{padding:16px 18px;text-align:left;font-size:14.5px;border-bottom:1px solid var(--border)}
+  th{background:var(--card-2);font-size:13px;text-transform:uppercase;letter-spacing:.04em;color:var(--muted)}
+  td:first-child{font-weight:600}
+  tr:last-child td{border-bottom:none}
+  .good-cell{color:var(--accent-2);font-weight:700}
+  .bad-cell{color:var(--danger)}
+  .caption{font-size:13px;color:var(--muted);margin-top:12px}
+
+  /* TWO COL FEATURE */
+  .split{display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:start}
+  @media(max-width:900px){.split{grid-template-columns:1fr}}
+  .feature-item{
+    display:flex;gap:16px;padding:22px;background:var(--card);
+    border:1px solid var(--border);border-radius:14px;margin-bottom:14px;
+  }
+  .feature-item .num{
+    min-width:42px;height:42px;border-radius:12px;display:flex;align-items:center;justify-content:center;
+    background:rgba(108,92,231,.18);color:#a29bfe;font-weight:800;font-size:17px;
+  }
+  .feature-item h4{font-size:16px;margin-bottom:6px}
+  .feature-item p{font-size:14px;color:var(--muted)}
+
+  /* SHOWCASE (примеры видео) */
+  #examples{background:var(--bg-soft)}
+  .showcase{display:flex;gap:48px;justify-content:center;align-items:flex-start;flex-wrap:wrap;margin-top:48px}
+  .show-item{display:flex;flex-direction:column;align-items:center;gap:18px}
+  .phone{
+    width:300px;aspect-ratio:9/16;border-radius:32px;overflow:hidden;
+    border:1px solid var(--border);
+    background:radial-gradient(circle at 30% 20%, rgba(108,92,231,.35), rgba(11,13,18,.9) 70%);
+    box-shadow:0 24px 60px rgba(0,0,0,.5), 0 0 0 6px rgba(255,255,255,.03);
+    position:relative;
+  }
+  .phone video{width:100%;height:100%;object-fit:cover;display:block}
+  .phone .placeholder{
+    position:absolute;inset:0;display:flex;align-items:center;justify-content:center;
+    color:var(--muted);font-size:13px;text-align:center;padding:20px;pointer-events:none;
+  }
+  .show-item h3{font-size:18px}
+  .show-item p{font-size:14px;color:var(--muted);max-width:300px;text-align:center}
+
+  /* PRICING */
+  #pricing{background:var(--bg)}
+  .price-toggle{display:flex;gap:10px;justify-content:center;margin:32px 0}
+  .toggle-btn{
+    padding:10px 22px;border-radius:999px;border:1px solid var(--border);
+    background:transparent;color:var(--muted);font-weight:600;cursor:pointer;font-size:14px;
+  }
+  .toggle-btn.active{background:var(--accent);color:#fff;border-color:var(--accent)}
+  .pricing-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:20px;margin-top:20px}
+  .price-card{
+    background:var(--card);border:1px solid var(--border);border-radius:20px;padding:34px 24px;
+    display:flex;flex-direction:column;position:relative;
+  }
+  .price-card.hot{border-color:var(--accent-2);box-shadow:0 0 0 1px var(--accent-2), 0 16px 48px rgba(0,210,168,.12)}
+  .hot-badge{
+    position:absolute;top:-13px;left:50%;transform:translateX(-50%);
+    background:var(--accent-2);color:#04120e;font-size:12px;font-weight:800;
+    padding:5px 14px;border-radius:999px;white-space:nowrap;
+  }
+  .price-card h3{font-size:18px;margin-bottom:6px}
+  .price-card .desc{font-size:13px;color:var(--muted);margin-bottom:20px}
+  .price{font-size:28px;font-weight:900;margin-bottom:2px}
+  .price small{font-size:14px;color:var(--muted);font-weight:500}
+  .vat{font-size:12px;color:var(--muted);margin-bottom:20px}
+  .price-card ul{list-style:none;margin-bottom:26px;flex:1}
+  .price-card li{font-size:13.5px;color:var(--muted);padding:6px 0;display:flex;gap:8px}
+  .price-card li::before{content:"✓";color:var(--accent-2);font-weight:900}
+  .price-card .btn{text-align:center;font-size:14px;padding:12px 16px}
+  @media(max-width:1000px){.pricing-grid{grid-template-columns:repeat(2,1fr)}}
+  @media(max-width:640px){.pricing-grid{grid-template-columns:1fr}}
+
+  /* FAQ */
+  .faq-item{border-bottom:1px solid var(--border)}
+  .faq-q{
+    width:100%;background:none;border:none;color:var(--text);text-align:left;
+    padding:22px 0;font-size:17px;font-weight:700;cursor:pointer;
+    display:flex;justify-content:space-between;align-items:center;gap:16px;
+  }
+  .faq-q::after{content:"+";font-size:26px;color:var(--accent);transition:transform .25s}
+  .faq-item.open .faq-q::after{transform:rotate(45deg)}
+  .faq-a{max-height:0;overflow:hidden;transition:max-height .35s ease}
+  .faq-a p{padding:0 0 22px;color:var(--muted);font-size:15px;max-width:820px}
+
+  /* CONTACT FORM */
+  #contact{background:var(--bg-soft)}
+  .form-card{
+    max-width:560px;margin:36px auto 0;background:var(--card);
+    border:1px solid var(--border);border-radius:24px;padding:40px;
+  }
+  .form-card label{display:block;font-size:13px;color:var(--muted);margin:18px 0 6px;font-weight:600}
+  .form-card input,.form-card select,.form-card textarea{
+    width:100%;padding:13px 15px;border-radius:12px;border:1px solid var(--border);
+    background:var(--bg);color:var(--text);font-size:15px;font-family:inherit;outline:none;
+  }
+  .form-card input:focus,.form-card select:focus,.form-card textarea:focus{border-color:var(--accent)}
+  .form-card .btn{width:100%;margin-top:26px}
+  .form-note{font-size:12px;color:var(--muted);text-align:center;margin-top:14px}
+
+  /* CTA */
+  .cta-band{
+    background:linear-gradient(135deg,rgba(108,92,231,.2),rgba(0,210,168,.1));
+    border:1px solid rgba(108,92,231,.35);border-radius:24px;
+    padding:56px 40px;text-align:center;
+  }
+  .cta-band h2{margin-bottom:12px}
+  .cta-band p{color:var(--muted);max-width:640px;margin:0 auto 28px}
+
+  footer{padding:40px 0;border-top:1px solid var(--border);color:var(--muted);font-size:14px}
+  .foot{display:flex;justify-content:space-between;flex-wrap:wrap;gap:16px}
+
+  .reveal{opacity:0;transform:translateY(24px);transition:opacity .7s,transform .7s}
+  .reveal.visible{opacity:1;transform:none}
+</style>
+<!-- Yandex.Metrika counter -->
+<script type="text/javascript">
+    (function(m,e,t,r,i,k,a){
+        m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+        m[i].l=1*new Date();
+        for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}
+        k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)
+    })(window, document,'script','https://mc.yandex.ru/metrika/tag.js?id=111947680', 'ym');
+
+    ym(111947680, 'init', {ssr:true, webvisor:true, clickmap:true, ecommerce:"dataLayer", referrer: document.referrer, url: location.href, accurateTrackBounce:true, trackLinks:true});
+</script>
+<noscript><div><img src="https://mc.yandex.ru/watch/111947680" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+<!-- /Yandex.Metrika counter -->
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-inner">
+    <div class="logo">viid<span>.ru</span></div>
+    <div class="nav-links">
+      <a href="#economy">Экономика</a>
+      <a href="#compare">Сравнение с рекламой</a>
+      <a href="#trust">Доверие</a>
+      <a href="#examples">Примеры</a>
+      <a href="#pricing">Тарифы</a>
+      <a href="#faq">FAQ</a>
+    </div>
+    <a href="#contact" class="btn btn-primary nav-cta">Заказать ролик</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<header class="hero">
+  <div class="wrap">
+    <div class="badge">Короткие вертикальные видео для локального бизнеса</div>
+    <h1>Каждый ролик — это <span class="accent">бесплатные рекламные контакты</span>, за которые другие платят</h1>
+    <p class="lead">
+      Один ролик на 500–1200 просмотров экономит вам до <b>144 000 ₽</b> рекламного бюджета
+      и работает на имидж компании — годами, а не до конца рекламной кампании.
+      Мы делаем такие видео под ключ: сценарий, производство, публикация и отчёт.
+    </p>
+    <div class="hero-btns">
+      <a href="#pricing" class="btn btn-primary">Смотреть тарифы</a>
+      <a href="#economy" class="btn btn-ghost">Почему это выгоднее рекламы</a>
+    </div>
+
+    <div class="stats">
+      <div class="stat"><b>0 ₽</b><span>стоимость рекламного контакта из органики</span></div>
+      <div class="stat"><b>до 5 000 ₽</b><span>стоит клиент из Яндекс.Директа в сфере услуг</span></div>
+      <div class="stat"><b>78%</b><span>зрителей коротких видео совершают покупку</span></div>
+      <div class="stat"><b>×8–12</b><span>выше кликабельность видео против статичных постов</span></div>
+    </div>
+  </div>
+</header>
+
+<!-- PROBLEM -->
+<section id="problem">
+  <div class="wrap reveal">
+    <div class="badge">Проблема</div>
+    <h2>Реклама — это аренда клиентов. <br>Видео — это <span class="accent-v">ваш собственный актив</span></h2>
+    <p class="lead">
+      Пока вы платите — клиенты идут. Перестали платить — трафик исчез мгновенно.
+      Короткие видео работают по другой модели: каждый ролик продолжает приводить людей и через месяц, и через год.
+    </p>
+
+    <div class="problem-grid">
+      <div class="p-card bad">
+        <h3><span class="icon-x">✕</span> Платная реклама</h3>
+        <ul>
+          <li><span class="icon-x">✕</span><span>Клики в Яндекс.Директе стоят <b>25–150 ₽</b>, бюджет — от <b>20 000–25 000 ₽/мес</b></span></li>
+          <li><span class="icon-x">✕</span><span>Стоимость привлечения клиента (CAC) доходит до <b>5 000 ₽</b></span></li>
+          <li><span class="icon-x">✕</span><span>Трафик <b>останавливается сразу</b> после окончания бюджета</span></li>
+          <li><span class="icon-x">✕</span><span>Баннеры воспринимаются как <b>«спам»</b> и не строят доверие</span></li>
+        </ul>
+      </div>
+      <div class="p-card good">
+        <h3><span class="icon-v">✓</span> Органические видео</h3>
+        <ul>
+          <li><span class="icon-v">✓</span><span>Каждый просмотр — <b>бесплатный рекламный контакт</b></span></li>
+          <li><span class="icon-v">✓</span><span>Охват до <b>1500–3000%</b> от числа подписчиков</span></li>
+          <li><span class="icon-v">✓</span><span>До <b>80% просмотров Reels</b> — от новых, неподписанных людей</span></li>
+          <li><span class="icon-v">✓</span><span>Ролик остаётся в архиве канала и <b>продолжает работать</b></span></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ECONOMY -->
+<section id="economy">
+  <div class="wrap reveal">
+    <div class="badge">Экономика</div>
+    <h2>Сколько стоит один ваш клиент сегодня — и сколько он будет стоить с видео</h2>
+    <p class="lead">
+      Возьмём минимальную стоимость клиента из таргета — <b>120 ₽</b>.
+      Теперь посчитаем, сколько вы экономите, когда тот же объём внимания приходит органически.
+    </p>
+
+    <div class="econ-cards">
+      <div class="econ">
+        <span class="badge">Ролик на 500 просмотров</span>
+        <div class="big">≈ 60 000 ₽</div>
+        <p>эквивалент рекламного бюджета, который вы НЕ тратите. Ролик достался вам за стоимость производства.</p>
+      </div>
+      <div class="econ">
+        <span class="badge">Ролик на 1 200 просмотров</span>
+        <div class="big">≈ 144 000 ₽</div>
+        <p>экономии рекламного бюджета. И это только один ролик — а они выходят регулярно.</p>
+      </div>
+      <div class="econ">
+        <span class="badge">Окупаемость</span>
+        <div class="big">1 клиент</div>
+        <p>при среднем чеке 30–50 тыс. ₽ всего один клиент из видео полностью окупает месячный пакет. Все остальные — чистая прибыль.</p>
+      </div>
+    </div>
+
+    <div class="table-wrap">
+      <table>
+        <tr>
+          <th>Метрика</th>
+          <th>Короткие видео (органика)</th>
+          <th>Яндекс.Директ</th>
+          <th>Таргет VK</th>
+        </tr>
+        <tr>
+          <td>Стоимость за контакт</td>
+          <td class="good-cell">~0 ₽</td>
+          <td class="bad-cell">CPC 25–150 ₽</td>
+          <td class="bad-cell">CPO 120–350 ₽</td>
+        </tr>
+        <tr>
+          <td>Стоимость привлечения клиента</td>
+          <td class="good-cell">~0 ₽</td>
+          <td class="bad-cell">до 5 000 ₽</td>
+          <td>—</td>
+        </tr>
+        <tr>
+          <td>Срок жизни</td>
+          <td class="good-cell">Месяцы и годы</td>
+          <td class="bad-cell">Пока платите</td>
+          <td class="bad-cell">Пока платите</td>
+        </tr>
+        <tr>
+          <td>Влияние на доверие</td>
+          <td class="good-cell">Высокое</td>
+          <td class="bad-cell">«Спам»-эффект</td>
+          <td class="bad-cell">Воспринимается как реклама</td>
+        </tr>
+      </table>
+    </div>
+    <p class="caption">Расчёты на основе средних данных по локальным услугам. Экономия = просмотры × 120 ₽ (минимальная CPO из таргета).</p>
+  </div>
+</section>
+
+<!-- TRUST -->
+<section id="trust">
+  <div class="wrap reveal">
+    <div class="badge">Имидж и доверие</div>
+    <h2>Видео продаёт ещё до звонка. Реклама — нет</h2>
+    <p class="lead" style="margin-bottom:44px">
+      Локальный бизнес выбирают не только по цене — по чувству уверенности.
+      Видео создаёт то, что невозможно купить за рекламный бюджет: доверие.
+    </p>
+
+    <div class="split">
+      <div>
+        <div class="feature-item">
+          <div class="num">01</div>
+          <div>
+            <h4>Формат «за кадром»</h4>
+            <p>Показ процесса работы — мастер, оборудование, аккуратность. Клиент видит реальную экспертизу и перестаёт бояться недобросовестного подрядчика.</p>
+          </div>
+        </div>
+        <div class="feature-item">
+          <div class="num">02</div>
+          <div>
+            <h4>Формат «до / после»</h4>
+            <p>Радикальное преображение — лучшее доказательство качества. Такие ролики сохраняют и пересылают, а алгоритмы продвигают их активнее всего.</p>
+          </div>
+        </div>
+        <div class="feature-item">
+          <div class="num">03</div>
+          <div>
+            <h4>Снятие возражений заранее</h4>
+            <p>Видео отвечает на страхи клиента ещё до звонка: материалы, процесс, цены, результат. Порог решения о покупке падает.</p>
+          </div>
+        </div>
+        <div class="feature-item">
+          <div class="num">04</div>
+          <div>
+            <h4>Образ «живого» современного бизнеса</h4>
+            <p>На фоне конкурентов с одними лишь листовками и сайтом компания с яркими видео автоматически выглядит лидером рынка.</p>
+          </div>
+        </div>
+      </div>
+      <div>
+        <div class="feature-item">
+          <div class="num">05</div>
+          <div>
+            <h4>Эффект присутствия</h4>
+            <p>Короткие видео вызывают у зрителя состояние вовлечённости и «телеприсутствия» — а вовлечённый зритель с большей вероятностью становится покупателем.</p>
+          </div>
+        </div>
+        <div class="feature-item">
+          <div class="num">06</div>
+          <div>
+            <h4>Эмоциональная связь с брендом</h4>
+            <p>Клиент узнаёт лицо владельца и мастеров. Бизнес превращается из безличной точки на карте в знакомую и доверенную компанию.</p>
+          </div>
+        </div>
+        <div class="feature-item">
+          <div class="num">07</div>
+          <div>
+            <h4>Сохранения и пересылки</h4>
+            <p>Для алгоритмов это сильнее лайков: пользователь говорит «мне это нужно» и «поделюсь с другом». Так запускается органическое вирусное распространение.</p>
+          </div>
+        </div>
+        <div class="feature-item">
+          <div class="num">08</div>
+          <div>
+            <h4>Накопительный эффект</h4>
+            <p>Каждый ролик — цифровой актив. Библиотека из 20–30 видео работает на вас круглосуточно, привлекая новых клиентов без новых затрат.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ALGORITHMS -->
+<section id="compare" style="background:var(--bg-soft)">
+  <div class="wrap reveal">
+    <div class="badge">Алгоритмы</div>
+    <h2>Почему Reels, Shorts и VK Видео — это цифровые активы</h2>
+    <p class="lead" style="margin-bottom:40px">
+      Платформы сами заинтересованы продвигать качественный контент: им нужны удержания и сохранения.
+      Мы делаем ролики на «языке алгоритмов».
+    </p>
+
+    <div class="table-wrap">
+      <table>
+        <tr>
+          <th>Характеристика</th>
+          <th>Reels / VK Клипы</th>
+          <th>YouTube Shorts / Rutube</th>
+        </tr>
+        <tr>
+          <td>Механизм продвижения</td>
+          <td>Рекомендации по сохранениям, пересылкам и досмотрам</td>
+          <td>Рекомендации + поисковая выдача Google и платформ</td>
+        </tr>
+        <tr>
+          <td>Срок жизни контента</td>
+          <td>Пик в первые дни, затем архивный показ</td>
+          <td class="good-cell">Месяцы и годы — «вечнозелёный» трафик из поиска</td>
+        </tr>
+        <tr>
+          <td>Тип охвата</td>
+          <td class="good-cell">В основном новые, неподписанные зрители</td>
+          <td class="good-cell">Новые зрители + поисковый спрос</td>
+        </tr>
+        <tr>
+          <td>Что делаем мы</td>
+          <td>Сильные хуки, досматриваемость, полезность</td>
+          <td>Названия и описания под ключевые запросы</td>
+        </tr>
+      </table>
+    </div>
+    <p class="caption">Стабильный рост обычно виден после 15–20 регулярных публикаций. Наша цель — не одно вирусное видео, а система, которая приводит клиентов постоянно.</p>
+  </div>
+</section>
+
+<!-- EXAMPLES (НОВЫЙ БЛОК) -->
+<section id="examples">
+  <div class="wrap reveal">
+    <div class="badge">Примеры работ</div>
+    <h2>Так выглядят ролики, которые приводят клиентов</h2>
+    <p class="lead">Два формата, которые лучше всего работают на локальный бизнес.</p>
+
+    <div class="showcase">
+      <div class="show-item">
+        <div class="phone">
+          <!-- Замените video/primer-1.mp4 на свой файл -->
+          <video controls preload="metadata" playsinline>
+            <source src="video/primer-1.mp4" type="video/mp4">
+          </video>
+          <div class="placeholder">Вертикальное видео 9:16 — добавьте файл video/primer-1.mp4</div>
+        </div>
+        <h3>Кейс 1 · «До / После»</h3>
+        <p>Преображение результата — формат, который сохраняют и пересылают чаще всего.</p>
+      </div>
+
+      <div class="show-item">
+        <div class="phone">
+          <!-- Замените video/primer-2.mp4 на свой файл -->
+          <video controls preload="metadata" playsinline>
+            <source src="video/primer-2.mp4" type="video/mp4">
+          </video>
+          <div class="placeholder">Вертикальное видео 9:16 — добавьте файл video/primer-2.mp4</div>
+        </div>
+        <h3>Кейс 2 · «За кадром»</h3>
+        <p>Процесс работы глазами клиента: экспертиза, аккуратность, доверие.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PRICING -->
+<section id="pricing">
+  <div class="wrap reveal">
+    <div class="badge">Тарифы</div>
+    <h2>Простая и понятная тарифная сетка</h2>
+    <p class="lead">Все цены указаны с учётом НДС. Начните с бесплатного тестового ролика — без риска.</p>
+
+    <div class="price-toggle">
+      <button class="toggle-btn active" data-mode="video">Только видео</button>
+      <button class="toggle-btn" data-mode="full">Видео + публикация и отчёт</button>
+    </div>
+
+    <div class="pricing-grid" id="priceGrid">
+      <!-- cards rendered by JS -->
+    </div>
+    <p class="caption" style="text-align:center;margin-top:18px">
+      Во всех платных тарифах: сценарий, ИИ-производство, озвучка, субтитры, 2 раунда правок, коммерческие права.
+      В тарифах с публикацией: названия, описания, хештеги, первый комментарий, обложки и ежемесячный отчёт по статистике.
+    </p>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section id="faq" style="background:var(--bg-soft)">
+  <div class="wrap reveal" style="max-width:880px">
+    <div class="badge">FAQ</div>
+    <h2>Частые вопросы</h2>
+    <div class="faq-item">
+      <button class="faq-q">А если мы не знаем, о чём снимать?</button>
+      <div class="faq-a"><p>Это наша задача. Мы изучаем ваш бизнес, сильные стороны и боли клиентов — и готовим библиотеку идей и сценариев. Генерация контента — наша забота, а не ваша.</p></div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-q">Как быстро будет результат?</button>
+      <div class="faq-a"><p>Первые просмотры и отклик — уже в первый месяц. Стабильный предсказуемый рост обычно виден после 15–20 регулярных публикаций. Мы строим систему, а не гонимся за разовым вирусным эффектом.</p></div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-q">Чем тестовый ролик отличается от платного?</button>
+      <div class="faq-a"><p>Тест — бесплатный, 15–30 секунд, с водяным знаком и не для публикации. Он нужен, чтобы вы оценили качество и подачу. При переходе на платный тариф водяной знак снимается.</p></div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-q">Что входит в «публикацию и отчёт»?</button>
+      <div class="faq-a"><p>Мы выкладываем ролик на согласованные площадки (VK Видео/Клипы, Rutube, Shorts, Reels), готовим название, описание, хештеги, первый комментарий и обложку, а в конце месяца присылаем отчёт: просмотры, вовлечённость, подписки и рекомендации.</p></div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-q">Это замена рекламе?</button>
+      <div class="faq-a"><p>Для большинства локальных бизнесов видео должно быть основой продвижения: оно дешевле в пересчёте на контакт и строит доверие. Платную рекламу можно использовать точечно — для горячего спроса «здесь и сейчас». Мы поможем распределить бюджет оптимально.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT FORM (FORMSPREE) -->
+<section id="contact">
+  <div class="wrap reveal">
+    <div class="badge" style="display:block;text-align:center">Заявка</div>
+    <h2 style="text-align:center">Заказать ролик</h2>
+    <p class="lead" style="margin:0 auto;text-align:center">
+      Оставьте контакты — ответим в течение рабочего дня и пришлём бесплатный тестовый ролик.
+    </p>
+
+    <form class="form-card" action="https://formspree.io/f/movgnzzk" method="POST">
+      <label for="f-name">Ваше имя</label>
+      <input type="text" id="f-name" name="Имя" placeholder="Иван" required>
+
+      <label for="f-company">Бизнес / ниша</label>
+      <input type="text" id="f-company" name="Бизнес" placeholder="Автосервис, антикор, Санкт-Петербург">
+
+      <label for="f-contact">Телефон или мессенджер</label>
+      <input type="text" id="f-contact" name="Контакт" placeholder="+7 900 000-00-00 / Telegram" required>
+
+      <label for="f-plan">Интересующий тариф</label>
+      <select id="f-plan" name="Тариф">
+        <option>Бесплатный тестовый ролик</option>
+        <option>Разовый ролик</option>
+        <option>Подписка 1 видео в неделю</option>
+        <option>Подписка 2 видео в неделю</option>
+        <option>Пока не решил(а) — нужна консультация</option>
+      </select>
+
+      <label for="f-msg">Комментарий</label>
+      <textarea id="f-msg" name="Сообщение" rows="3" placeholder="Расскажите пару слов о задаче"></textarea>
+
+      <input type="hidden" name="_subject" value="Новая заявка с viid.ru">
+
+      <button type="submit" class="btn btn-primary">Отправить заявку</button>
+      <div class="form-note">Нажимая кнопку, вы соглашаетесь на обработку персональных данных.</div>
+    </form>
+  </div>
+</section>
+
+<!-- CTA -->
+<section>
+  <div class="wrap reveal">
+    <div class="cta-band">
+      <h2>Перестаньте арендовать клиентов у рекламных площадок</h2>
+      <p>
+        Закажите бесплатный тестовый ролик для вашего бизнеса — и посмотрите, как может выглядеть
+        ваш поток бесплатных рекламных контактов.
+      </p>
+      <a href="#contact" class="btn btn-primary">Получить бесплатный тестовый ролик</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap foot">
+    <div class="logo">viid<span>.ru</span></div>
+    <div>Короткие видео, которые приводят клиентов · © 2026</div>
+    <div><a href="#contact">Оставить заявку</a></div>
+  </div>
+</footer>
+
+<script>
+  // ---------- PRICING DATA ----------
+  const plans = {
+    video: [ // только видео
+      {
+        name:"Тестовый ролик",
+        desc:"Познакомиться с качеством без риска",
+        price:"0 ₽",
+        vat:"бесплатно, с водяным знаком",
+        features:["15–30 секунд","1 вариант, 1 правка","Срок 2–3 дня","Не для публикации"],
+        cta:"Заказать тест",
+        hot:false
+      },
+      {
+        name:"Разовый ролик",
+        desc:"Один ролик под задачу",
+        price:"9 000 ₽",
+        vat:"в т.ч. НДС",
+        features:["До 60 секунд","Сценарий и озвучка","Субтитры, обложка","2 раунда правок","Коммерческие права"],
+        cta:"Заказать ролик",
+        hot:false
+      },
+      {
+        name:"Подписка 1 видео / неделя",
+        desc:"4 ролика в месяц",
+        price:"24 000 ₽",
+        vat:"в месяц, в т.ч. НДС",
+        features:["4 ролика в месяц","Контент-план","Файлы для публикации","Экономия 33% против разового"],
+        cta:"Выбрать подписку",
+        hot:false
+      },
+      {
+        name:"Подписка 2 видео / неделя",
+        desc:"8 роликов в месяц — лучший темп для алгоритмов",
+        price:"42 000 ₽",
+        vat:"в месяц, в т.ч. НДС",
+        features:["8 роликов в месяц","Контент-план","Файлы для публикации","Максимальная экономия за ролик"],
+        cta:"Выбрать подписку",
+        hot:true
+      }
+    ],
+    full: [ // с публикацией и отчётом
+      {
+        name:"Разовый ролик",
+        desc:"Ролик + публикация + отчёт через 14 дней",
+        price:"12 000 ₽",
+        vat:"в т.ч. НДС",
+        features:["Всё из «Только видео»","Публикация на площадках","Название, описание, хештеги","Первый комментарий","Отчёт через 14 дней"],
+        cta:"Заказать ролик",
+        hot:false
+      },
+      {
+        name:"Подписка 1 видео / неделя",
+        desc:"4 ролика + публикация и ежемесячный отчёт",
+        price:"30 000 ₽",
+        vat:"в месяц, в т.ч. НДС",
+        features:["4 ролика в месяц","Полный пакет публикации","Названия, описания, теги","Первый комментарий","Ежемесячный отчёт по статистике"],
+        cta:"Выбрать подписку",
+        hot:false
+      },
+      {
+        name:"Подписка 2 видео / неделя",
+        desc:"8 роликов + публикация и отчёт — система под ключ",
+        price:"54 000 ₽",
+        vat:"в месяц, в т.ч. НДС",
+        features:["8 роликов в месяц","Полный пакет публикации","Названия, описания, теги","Первый комментарий","Ежемесячный отчёт и рекомендации"],
+        cta:"Выбрать подписку",
+        hot:true
+      },
+      {
+        name:"Нужно больше?",
+        desc:"Индивидуальный объём под ваши задачи",
+        price:"По запросу",
+        vat:"рассчитаем за 1 день",
+        features:["Любой объём роликов","Доп. площадки","Расширенная аналитика","Персональный менеджер"],
+        cta:"Обсудить проект",
+        hot:false
+      }
+    ]
+  };
+
+  const grid = document.getElementById('priceGrid');
+  function renderPrices(mode){
+    grid.innerHTML = plans[mode].map(p => `
+      <div class="price-card ${p.hot ? 'hot' : ''}">
+        ${p.hot ? '<div class="hot-badge">Рекомендуем</div>' : ''}
+        <h3>${p.name}</h3>
+        <div class="desc">${p.desc}</div>
+        <div class="price">${p.price}</div>
+        <div class="vat">${p.vat}</div>
+        <ul>${p.features.map(f => `<li>${f}</li>`).join('')}</ul>
+        <a href="#contact" class="btn ${p.hot ? 'btn-primary' : 'btn-ghost'}">${p.cta}</a>
+      </div>
+    `).join('');
+  }
+  renderPrices('video');
+
+  document.querySelectorAll('.toggle-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.toggle-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      renderPrices(btn.dataset.mode);
+    });
+  });
+
+  // ---------- FAQ ACCORDION ----------
+  document.querySelectorAll('.faq-q').forEach(q => {
+    q.addEventListener('click', () => {
+      const item = q.parentElement;
+      const answer = item.querySelector('.faq-a');
+      const isOpen = item.classList.contains('open');
+      document.querySelectorAll('.faq-item.open').forEach(i => {
+        i.classList.remove('open');
+        i.querySelector('.faq-a').style.maxHeight = null;
+      });
+      if(!isOpen){
+        item.classList.add('open');
+        answer.style.maxHeight = answer.scrollHeight + 'px';
+      }
+    });
+  });
+
+  // ---------- REVEAL ON SCROLL ----------
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(e => { if(e.isIntersecting) e.target.classList.add('visible'); });
+  }, {threshold:.1});
+  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+</script>
+
+</body>
+</html>
+
