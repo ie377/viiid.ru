@@ -732,6 +732,23 @@
   </div>
 </footer>
 
+<video id="venusVideo"
+       playsinline
+       preload="metadata"
+       poster="venus.jpg"
+       style="width:100%; max-width:320px; aspect-ratio:9/16; object-fit:cover;
+              border-radius:32px; display:block; margin:40px auto; cursor:pointer;">
+  <source src="venus.mp4" type="video/mp4">
+</video>
+
+<script>
+  var v = document.getElementById('venusVideo');
+  v.addEventListener('click', function () { v.play(); });
+  v.addEventListener('ended', function () { v.pause(); v.currentTime = 0; });
+</script>
+
+
+
 <script>
   // ---------- PRICING DATA ----------
   const plans = {
